@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Builds
+.next/
+**/.next/
+dist/
+**/dist/
+generated/
+**/generated/
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Environment
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Tests
+coverage/
+**/coverage/
+
+# AI/tool generated local folders
+.agents/
+**/.agents/
+.claude/
+**/.claude/
+.cursor/
+**/.cursor/
+.devin/
+**/.devin/
+
+# OS
+.DS_Store
+Thumbs.db
