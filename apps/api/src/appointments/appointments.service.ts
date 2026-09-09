@@ -4,17 +4,141 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { DateTime } from 'luxon';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { AppointmentQueryDto } from './dto/appointment-query.dto.js';
-import {
-  AppointmentStatusValue,
-  UpdateAppointmentStatusDto,
-} from './dto/update-appointment-status.dto.js';
+import type { UpdateAppointmentStatusDto } from './dto/update-appointment-status.dto.js';
 
 @Injectable()
 export class AppointmentsService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private timeToParts(time: string) {
+    const [hour, minute] = time.split(':').map(Number);
+
+    return {
+      hour,
+      minute,
+    };
+  }
+
+  private async validateAvailability(
+    tenantId: string,
+    professionalId: string,
+    startsAt: Date,
+    endsAt: Date,
+  ) {
+    const tenant = await this.prisma.tenant.findUnique({
+      where: {
+        id: tenantId,
+      },
+      select: {
+        timezone: true,
+      },
+    });
+
+    if (!tenant) {
+      throw new NotFoundException(
+        'Estabelecimento não encontrado.',
+      );
+    }
+
+    const timezone = tenant.timezone;
+
+    const localStart = DateTime.fromJSDate(startsAt, {
+      zone: 'utc',
+    }).setZone(timezone);
+
+    const localEnd = DateTime.fromJSDate(endsAt, {
+      zone: 'utc',
+    }).setZone(timezone);
+
+    if (!localStart.isValid || !localEnd.isValid) {
+      throw new BadRequestException(
+        'Não foi possível interpretar o horário do agendamento.',
+      );
+    }
+
+    const availabilities =
+      await this.prisma.availability.findMany({
+        where: {
+          professionalId,
+          active: true,
+        },
+      });
+
+    if (availabilities.length === 0) {
+      throw new BadRequestException(
+        'O profissional não possui disponibilidade configurada.',
+      );
+    }
+
+    const candidateDays = [
+      localStart.startOf('day'),
+      localStart.minus({ days: 1 }).startOf('day'),
+    ];
+
+    for (const availability of availabilities) {
+      for (const candidateDay of candidateDays) {
+        const dayOfWeek = candidateDay.weekday % 7;
+
+        if (dayOfWeek !== availability.dayOfWeek) {
+          continue;
+        }
+
+        const startParts = this.timeToParts(
+          availability.startTime,
+        );
+
+        const endParts = this.timeToParts(
+          availability.endTime,
+        );
+
+        const windowStart = candidateDay.set({
+          hour: startParts.hour,
+          minute: startParts.minute,
+          second: 0,
+          millisecond: 0,
+        });
+
+        let windowEnd = candidateDay.set({
+          hour: endParts.hour,
+          minute: endParts.minute,
+          second: 0,
+          millisecond: 0,
+        });
+
+        if (
+          windowEnd.toMillis() <=
+          windowStart.toMillis()
+        ) {
+          windowEnd = windowEnd.plus({
+            days: 1,
+          });
+        }
+
+        const appointmentStartsInside =
+          localStart.toMillis() >=
+          windowStart.toMillis();
+
+        const appointmentEndsInside =
+          localEnd.toMillis() <=
+          windowEnd.toMillis();
+
+        if (
+          appointmentStartsInside &&
+          appointmentEndsInside
+        ) {
+          return;
+        }
+      }
+    }
+
+    throw new BadRequestException(
+      'Horário fora da disponibilidade do profissional.',
+    );
+  }
 
   async create(
     tenantId: string,
@@ -75,6 +199,13 @@ export class AppointmentsService {
     const endsAt = new Date(
       startsAt.getTime() +
         service.duration * 60_000,
+    );
+
+    await this.validateAvailability(
+      tenantId,
+      professional.id,
+      startsAt,
+      endsAt,
     );
 
     const conflict =
@@ -203,7 +334,7 @@ export class AppointmentsService {
         id,
       },
       data: {
-        status: dto.status as AppointmentStatusValue,
+        status: dto.status,
       },
       include: {
         professional: true,
