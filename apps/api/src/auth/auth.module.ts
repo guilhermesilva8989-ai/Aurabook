@@ -29,5 +29,9 @@ import { AuthService } from './auth.service.js';
     AuthService,
     JwtAuthGuard,
   ],
+  exports: [
+    JwtAuthGuard,
+    JwtModule,
+  ],
 })
 export class AuthModule {}
