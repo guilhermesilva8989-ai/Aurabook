@@ -148,7 +148,10 @@ export default function ServicesPage() {
               </h1>
             </div>
 
-            <button className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700">
+            <button
+              onClick={() => router.push("/servicos/novo")}
+              className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700"
+            >
               + Novo serviço
             </button>
           </div>
