@@ -3,6 +3,22 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function formatPhone(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+
+  if (digits.length <= 2) return digits;
+
+  if (digits.length <= 6) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  }
+
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 export default function NovoClientePage() {
   const router = useRouter();
 
@@ -47,7 +63,7 @@ export default function NovoClientePage() {
           body: JSON.stringify({
             name: name.trim(),
             email: email.trim() || undefined,
-            phone: phone.trim() || undefined,
+            phone: phone.replace(/\D/g, "") || undefined,
             birthDate: birthDate
               ? new Date(birthDate + "T12:00:00").toISOString()
               : undefined,
@@ -151,7 +167,7 @@ export default function NovoClientePage() {
               <input
                 value={phone}
                 onChange={(event) =>
-                  setPhone(event.target.value)
+                  setPhone(formatPhone(event.target.value))
                 }
                 placeholder="(16) 99999-9999"
                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
