@@ -237,9 +237,14 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                <button className="mt-5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:border-violet-300 hover:text-violet-600">
-                  Editar serviço
-                </button>
+                <button
+                    onClick={() =>
+                      router.push(`/servicos/${service.id}/editar`)
+                    }
+                    className="mt-5 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:border-violet-300 hover:text-violet-600"
+                  >
+                    Editar serviço
+                  </button>
               </article>
             ))}
 
