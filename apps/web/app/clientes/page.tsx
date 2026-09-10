@@ -281,9 +281,14 @@ export default function ClientsPage() {
                   </div>
 
                   <div className="md:text-right">
-                    <button className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-violet-300 hover:text-violet-600">
-                      Ver cliente
-                    </button>
+                    <button
+                    onClick={() =>
+                      router.push(`/clientes/${client.id}`)
+                    }
+                    className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-violet-300 hover:text-violet-600"
+                  >
+                    Ver cliente
+                  </button>
                   </div>
                 </article>
               ))}
