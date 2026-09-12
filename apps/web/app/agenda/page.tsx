@@ -279,6 +279,7 @@ export default function AgendaPage() {
               ["CONFIRMED", "Confirmados"],
               ["COMPLETED", "Concluídos"],
               ["CANCELLED", "Cancelados"],
+              ["NO_SHOW", "Não compareceu"],
             ].map(([value, label]) => (
               <button
                 key={value}
