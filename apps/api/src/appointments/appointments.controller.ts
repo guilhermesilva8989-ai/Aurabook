@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { AppointmentsService } from './appointments.service.js';
 import { AppointmentQueryDto } from './dto/appointment-query.dto.js';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
+import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { UpdateAppointmentStatusDto } from './dto/update-appointment-status.dto.js';
 
 interface AuthenticatedRequest extends Request {
@@ -62,6 +63,19 @@ export class AppointmentsController {
     return this.appointmentsService.findOne(
       request.user.tenantId,
       id,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @Req() request: AuthenticatedRequest,
+    @Param('id') id: string,
+    @Body() dto: UpdateAppointmentDto,
+  ) {
+    return this.appointmentsService.update(
+      request.user.tenantId,
+      id,
+      dto,
     );
   }
 

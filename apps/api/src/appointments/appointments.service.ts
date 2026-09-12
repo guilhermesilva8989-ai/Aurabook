@@ -8,6 +8,7 @@ import { DateTime } from 'luxon';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { AppointmentQueryDto } from './dto/appointment-query.dto.js';
+import type { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import type { UpdateAppointmentStatusDto } from './dto/update-appointment-status.dto.js';
 
 @Injectable()
@@ -320,6 +321,127 @@ export class AppointmentsService {
     }
 
     return appointment;
+  }
+
+
+  async update(
+    tenantId: string,
+    id: string,
+    dto: UpdateAppointmentDto,
+  ) {
+    await this.findOne(tenantId, id);
+
+    const professional =
+      await this.prisma.professional.findFirst({
+        where: {
+          id: dto.professionalId,
+          tenantId,
+          active: true,
+        },
+      });
+
+    if (!professional) {
+      throw new NotFoundException(
+        'Profissional não encontrado.',
+      );
+    }
+
+    const client =
+      await this.prisma.client.findFirst({
+        where: {
+          id: dto.clientId,
+          tenantId,
+        },
+      });
+
+    if (!client) {
+      throw new NotFoundException(
+        'Cliente não encontrado.',
+      );
+    }
+
+    const service =
+      await this.prisma.service.findFirst({
+        where: {
+          id: dto.serviceId,
+          tenantId,
+          active: true,
+        },
+      });
+
+    if (!service) {
+      throw new NotFoundException(
+        'Serviço não encontrado.',
+      );
+    }
+
+    const startsAt = new Date(dto.startsAt);
+
+    if (Number.isNaN(startsAt.getTime())) {
+      throw new BadRequestException(
+        'Data de início inválida.',
+      );
+    }
+
+    const endsAt = new Date(
+      startsAt.getTime() +
+        service.duration * 60_000,
+    );
+
+    await this.validateAvailability(
+      tenantId,
+      professional.id,
+      startsAt,
+      endsAt,
+    );
+
+    const conflict =
+      await this.prisma.appointment.findFirst({
+        where: {
+          id: {
+            not: id,
+          },
+          tenantId,
+          professionalId: professional.id,
+          status: {
+            notIn: [
+              'CANCELLED',
+              'NO_SHOW',
+            ],
+          },
+          startsAt: {
+            lt: endsAt,
+          },
+          endsAt: {
+            gt: startsAt,
+          },
+        },
+      });
+
+    if (conflict) {
+      throw new ConflictException(
+        'O profissional já possui um agendamento neste horário.',
+      );
+    }
+
+    return this.prisma.appointment.update({
+      where: {
+        id,
+      },
+      data: {
+        professionalId: professional.id,
+        clientId: client.id,
+        serviceId: service.id,
+        startsAt,
+        endsAt,
+        notes: dto.notes ?? null,
+      },
+      include: {
+        professional: true,
+        client: true,
+        service: true,
+      },
+    });
   }
 
   async updateStatus(

@@ -399,6 +399,21 @@ export default function AgendaPage() {
                         appointment.status}
                     </span>
 
+                    {(appointment.status === "PENDING" ||
+                      appointment.status === "CONFIRMED") && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          router.push(
+                            `/agenda/${appointment.id}/editar`
+                          )
+                        }
+                        className="rounded-xl border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold text-violet-700 transition hover:bg-violet-100"
+                      >
+                        Editar / Reagendar
+                      </button>
+                    )}
+
                     {appointment.status === "PENDING" && (
                       <div className="flex flex-wrap gap-2 md:justify-end">
                         <button
