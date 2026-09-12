@@ -113,6 +113,23 @@ export default function DashboardPage() {
     (item) => item.status === "CONFIRMED"
   ).length;
 
+  const upcomingAppointments = appointments
+    .filter((item) => {
+      const isActive =
+        item.status === "PENDING" ||
+        item.status === "CONFIRMED";
+
+      const appointmentDate = new Date(item.startsAt);
+
+      return isActive && appointmentDate.getTime() >= Date.now();
+    })
+    .sort(
+      (a, b) =>
+        new Date(a.startsAt).getTime() -
+        new Date(b.startsAt).getTime()
+    )
+    .slice(0, 5);
+
   return (
     <main className="min-h-screen bg-[#f8f7fc] text-slate-950">
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-slate-950 p-5 text-white lg:flex">
@@ -243,18 +260,18 @@ export default function DashboardPage() {
                 </div>
 
                 <span className="text-sm font-semibold text-violet-600">
-                  {appointments.length} no total
+                  {upcomingAppointments.length} próximo(s)
                 </span>
               </div>
 
               <div className="mt-6 space-y-3">
-                {appointments.length === 0 && (
+                {upcomingAppointments.length === 0 && (
                   <div className="rounded-2xl bg-slate-50 p-8 text-center text-sm text-slate-500">
                     Nenhum agendamento encontrado.
                   </div>
                 )}
 
-                {appointments.slice(0, 5).map((appointment) => {
+                {upcomingAppointments.map((appointment) => {
                   const date = new Date(appointment.startsAt);
 
                   return (
