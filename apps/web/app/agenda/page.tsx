@@ -43,6 +43,8 @@ export default function AgendaPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState("");
 
   useEffect(() => {
     async function loadAppointments() {
@@ -87,6 +89,63 @@ export default function AgendaPage() {
 
     loadAppointments();
   }, [router]);
+
+  async function updateAppointmentStatus(
+    id: string,
+    status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" | "NO_SHOW"
+  ) {
+    const token = localStorage.getItem("aurabook_token");
+
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
+    setUpdatingId(id);
+    setActionError("");
+
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/appointments/${id}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        const message = Array.isArray(data?.message)
+          ? data.message.join(", ")
+          : data?.message;
+
+        throw new Error(
+          message || "Não foi possível atualizar o agendamento."
+        );
+      }
+
+      setAppointments((current) =>
+        current.map((appointment) =>
+          appointment.id === id
+            ? { ...appointment, status }
+            : appointment
+        )
+      );
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : "Erro ao atualizar o agendamento."
+      );
+    } finally {
+      setUpdatingId(null);
+    }
+  }
 
   const filteredAppointments = useMemo(() => {
     if (filter === "ALL") {
@@ -248,6 +307,12 @@ export default function AgendaPage() {
             </div>
 
             <div className="divide-y divide-slate-100">
+              {actionError && (
+                <div className="mb-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                  {actionError}
+                </div>
+              )}
+
               {filteredAppointments.length === 0 && (
                 <div className="px-6 py-16 text-center">
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-2xl text-violet-600">
@@ -321,18 +386,98 @@ export default function AgendaPage() {
                       </p>
                     </div>
 
-                    <div className="md:text-right">
-                      <span
-                        className={
-                          "inline-flex rounded-full px-3 py-1.5 text-xs font-semibold " +
-                          (statusStyles[appointment.status] ||
-                            "bg-slate-100 text-slate-600")
-                        }
-                      >
-                        {statusLabels[appointment.status] ||
-                          appointment.status}
-                      </span>
-                    </div>
+                    <div className="flex flex-col items-start gap-2 md:items-end">
+                    <span
+                      className={
+                        "inline-flex rounded-full px-3 py-1.5 text-xs font-semibold " +
+                        (statusStyles[appointment.status] ||
+                          "bg-slate-100 text-slate-600")
+                      }
+                    >
+                      {statusLabels[appointment.status] ||
+                        appointment.status}
+                    </span>
+
+                    {appointment.status === "PENDING" && (
+                      <div className="flex flex-wrap gap-2 md:justify-end">
+                        <button
+                          type="button"
+                          disabled={updatingId === appointment.id}
+                          onClick={() =>
+                            updateAppointmentStatus(
+                              appointment.id,
+                              "CONFIRMED"
+                            )
+                          }
+                          className="rounded-xl bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          {updatingId === appointment.id
+                            ? "Atualizando..."
+                            : "Confirmar"}
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={updatingId === appointment.id}
+                          onClick={() =>
+                            updateAppointmentStatus(
+                              appointment.id,
+                              "CANCELLED"
+                            )
+                          }
+                          className="rounded-xl bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    )}
+
+                    {appointment.status === "CONFIRMED" && (
+                      <div className="flex flex-wrap gap-2 md:justify-end">
+                        <button
+                          type="button"
+                          disabled={updatingId === appointment.id}
+                          onClick={() =>
+                            updateAppointmentStatus(
+                              appointment.id,
+                              "COMPLETED"
+                            )
+                          }
+                          className="rounded-xl bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Concluir
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={updatingId === appointment.id}
+                          onClick={() =>
+                            updateAppointmentStatus(
+                              appointment.id,
+                              "NO_SHOW"
+                            )
+                          }
+                          className="rounded-xl bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Não compareceu
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={updatingId === appointment.id}
+                          onClick={() =>
+                            updateAppointmentStatus(
+                              appointment.id,
+                              "CANCELLED"
+                            )
+                          }
+                          className="rounded-xl bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   </article>
                 );
               })}
