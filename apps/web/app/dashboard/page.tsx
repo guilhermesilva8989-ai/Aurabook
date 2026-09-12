@@ -145,25 +145,25 @@ export default function DashboardPage() {
         </div>
 
         <nav className="mt-10 space-y-2">
-          <button className="flex w-full items-center gap-3 rounded-xl bg-violet-600 px-4 py-3 text-left text-sm font-semibold">
+          <a className="flex w-full items-center gap-3 rounded-xl bg-violet-600 px-4 py-3 text-left text-sm font-semibold"  href="/dashboard">
             ◈ Dashboard
-          </button>
+          </a>
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">
+          <a className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"  href="/agenda">
             ◷ Agenda
-          </button>
+          </a>
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">
+          <a className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"  href="/clientes">
             ♙ Clientes
-          </button>
+          </a>
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">
+          <a className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"  href="/servicos">
             ✦ Serviços
-          </button>
+          </a>
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white">
+          <a className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"  href="/configuracoes">
             ⚙ Configurações
-          </button>
+          </a>
         </nav>
 
         <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -196,7 +196,7 @@ export default function DashboardPage() {
               </h1>
             </div>
 
-            <button className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700">
+            <button className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700" onClick={() => router.push("/agenda/novo")}>
               + Novo agendamento
             </button>
           </div>

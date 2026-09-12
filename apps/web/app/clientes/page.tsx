@@ -111,31 +111,31 @@ export default function ClientsPage() {
         </div>
 
         <nav className="mt-10 space-y-2">
-          <button
-            onClick={() => router.push("/dashboard")}
+          <a
+            
             className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
-          >
+           href="/dashboard">
             ◈ Dashboard
-          </button>
+          </a>
 
-          <button
-            onClick={() => router.push("/agenda")}
+          <a
+            
             className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
-          >
+           href="/agenda">
             ◷ Agenda
-          </button>
+          </a>
 
-          <button className="flex w-full rounded-xl bg-violet-600 px-4 py-3 text-left text-sm font-semibold">
+          <a className="flex w-full rounded-xl bg-violet-600 px-4 py-3 text-left text-sm font-semibold"  href="/clientes">
             ♙ Clientes
-          </button>
+          </a>
 
-          <button className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400">
+          <a className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400"  href="/servicos">
             ✦ Serviços
-          </button>
+          </a>
 
-          <button className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400">
+          <a className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-slate-400"  href="/configuracoes">
             ⚙ Configurações
-          </button>
+          </a>
         </nav>
 
         <button
