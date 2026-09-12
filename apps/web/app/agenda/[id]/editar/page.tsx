@@ -241,8 +241,45 @@ export default function EditarAgendamentoPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f8f7fc] px-6 py-10 text-slate-950">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-screen bg-[#f8f7fc] text-slate-950">
+      <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-slate-950 p-5 text-white lg:flex">
+        <div className="flex items-center gap-3 px-2 py-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-lg font-bold">
+            A
+          </div>
+
+          <div>
+            <p className="font-bold">AuraBook</p>
+            <p className="text-xs text-slate-500">Agenda inteligente</p>
+          </div>
+        </div>
+
+        <nav className="mt-10 space-y-2">
+          <a href="/dashboard" className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white">
+            ◈ Dashboard
+          </a>
+
+          <a href="/agenda" className="flex w-full items-center gap-3 rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white">
+            ◷ Agenda
+          </a>
+
+          <a href="/clientes" className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white">
+            ♙ Clientes
+          </a>
+
+          <a href="/servicos" className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white">
+            ✦ Serviços
+          </a>
+
+          <a href="/configuracoes" className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white">
+            ⚙ Configurações
+          </a>
+        </nav>
+      </aside>
+
+      <div className="lg:pl-64">
+        <div className="px-6 py-10">
+          <div className="mx-auto max-w-3xl">
         <button
           type="button"
           onClick={() => router.push("/agenda")}
@@ -415,6 +452,8 @@ export default function EditarAgendamentoPage() {
             </button>
           </div>
         </form>
+          </div>
+        </div>
       </div>
     </main>
   );
