@@ -292,6 +292,45 @@ export default function NovoAgendamentoPage() {
           </p>
         </div>
 
+        {(clients.length === 0 || services.length === 0) && (
+          <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+            <p className="font-semibold text-amber-900">
+              Antes de criar seu primeiro agendamento
+            </p>
+
+            <p className="mt-1 text-sm text-amber-700">
+              Você precisa cadastrar pelo menos um cliente e um serviço.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              {clients.length === 0 && (
+                <a
+                  href="/clientes/novo"
+                  className="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-amber-800 shadow-sm ring-1 ring-amber-200 transition hover:bg-amber-100"
+                >
+                  + Cadastrar cliente
+                </a>
+              )}
+
+              {services.length === 0 && (
+                <a
+                  href="/servicos/novo"
+                  className="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-amber-800 shadow-sm ring-1 ring-amber-200 transition hover:bg-amber-100"
+                >
+                  + Cadastrar serviço
+                </a>
+              )}
+
+              <a
+                href="/configuracoes"
+                className="rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
+              >
+                Configurar horários
+              </a>
+            </div>
+          </div>
+        )}
+
         <form
           onSubmit={handleSubmit}
           className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8"
@@ -433,7 +472,7 @@ export default function NovoAgendamentoPage() {
 
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || clients.length === 0 || services.length === 0}
               className="rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving
