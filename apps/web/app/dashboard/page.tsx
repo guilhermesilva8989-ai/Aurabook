@@ -266,8 +266,45 @@ export default function DashboardPage() {
 
               <div className="mt-6 space-y-3">
                 {upcomingAppointments.length === 0 && (
-                  <div className="rounded-2xl bg-slate-50 p-8 text-center text-sm text-slate-500">
-                    Nenhum agendamento encontrado.
+                  <div className="rounded-2xl bg-slate-50 p-8 text-center">
+                    {clientsCount === 0 || servicesCount === 0 ? (
+                      <>
+                        <p className="font-semibold text-slate-800">
+                          Prepare sua agenda para o primeiro atendimento
+                        </p>
+
+                        <p className="mx-auto mt-2 max-w-xl text-sm text-slate-500">
+                          Cadastre um cliente, um serviço e configure seus horários antes do primeiro agendamento.
+                        </p>
+
+                        <div className="mt-5 flex flex-wrap justify-center gap-3">
+                          <a
+                            href="/clientes/novo"
+                            className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700"
+                          >
+                            + Cadastrar cliente
+                          </a>
+
+                          <a
+                            href="/servicos/novo"
+                            className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700"
+                          >
+                            + Cadastrar serviço
+                          </a>
+
+                          <a
+                            href="/configuracoes"
+                            className="rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
+                          >
+                            Configurar horários
+                          </a>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-sm text-slate-500">
+                        Nenhum agendamento encontrado.
+                      </p>
+                    )}
                   </div>
                 )}
 
