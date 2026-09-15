@@ -166,13 +166,19 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <button className="hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:block">
-              Entrar
-            </button>
+            <a
+            href="/cadastro"
+            className="hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:block"
+          >
+            Entrar
+          </a>
 
-            <button className="rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700">
-              Começar agora
-            </button>
+            <a
+            href="/cadastro"
+            className="rounded-xl bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
+          >
+            Começar agora
+          </a>
           </div>
         </div>
       </header>
@@ -200,17 +206,23 @@ export default function Home() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <button className="group flex items-center justify-center gap-2 rounded-2xl bg-violet-600 px-7 py-4 font-semibold text-white shadow-xl shadow-violet-200 transition hover:bg-violet-700">
-              Criar minha agenda
+            <a
+            href="/cadastro"
+            className="group flex items-center justify-center gap-2 rounded-2xl bg-violet-600 px-7 py-4 font-semibold text-white shadow-xl shadow-violet-200 transition hover:bg-violet-700"
+          >
+            Criar minha agenda
               <Icon
                 name="arrow"
                 className="h-5 w-5 transition group-hover:translate-x-1"
               />
-            </button>
+            </a>
 
-            <button className="rounded-2xl border border-slate-200 bg-white px-7 py-4 font-semibold text-slate-700 shadow-sm transition hover:border-violet-200 hover:bg-violet-50">
-              Ver como funciona
-            </button>
+            <a
+            href="#recursos"
+            className="rounded-2xl border border-slate-200 bg-white px-7 py-4 text-center font-semibold text-slate-700 shadow-sm transition hover:border-violet-200 hover:bg-violet-50"
+          >
+            Ver como funciona
+          </a>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-500">
@@ -381,9 +393,12 @@ export default function Home() {
             </p>
           </div>
 
-          <button className="mt-8 rounded-2xl bg-white px-7 py-4 font-bold text-slate-950 transition hover:bg-violet-100 lg:mt-0">
-            Começar gratuitamente
-          </button>
+          <a
+          href="/login"
+          className="mt-8 rounded-2xl bg-white px-7 py-4 text-center font-bold text-slate-950 transition hover:bg-violet-100 lg:mt-0"
+        >
+          Começar gratuitamente
+        </a>
         </div>
       </section>
 

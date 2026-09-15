@@ -24,22 +24,37 @@ export class TenantsService {
     email: string;
     passwordHash: string;
   }) {
-    return this.prisma.tenant.create({
-      data: {
-        name: data.businessName,
-        slug: this.createSlug(data.businessName),
-        users: {
-          create: {
-            name: data.ownerName,
-            email: data.email.toLowerCase(),
-            passwordHash: data.passwordHash,
-            role: 'OWNER',
-          },
+    return this.prisma.$transaction(async (transaction) => {
+      const tenant = await transaction.tenant.create({
+        data: {
+          name: data.businessName,
+          slug: this.createSlug(data.businessName),
         },
-      },
-      include: {
-        users: true,
-      },
+      });
+
+      const user = await transaction.user.create({
+        data: {
+          tenantId: tenant.id,
+          name: data.ownerName,
+          email: data.email.toLowerCase(),
+          passwordHash: data.passwordHash,
+          role: 'OWNER',
+        },
+      });
+
+      await transaction.professional.create({
+        data: {
+          tenantId: tenant.id,
+          userId: user.id,
+          name: data.ownerName,
+          status: 'APPROVED',
+        },
+      });
+
+      return {
+        ...tenant,
+        users: [user],
+      };
     });
   }
 }

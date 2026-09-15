@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Request } from 'express';
+import { UsersService } from '../users/users.service.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { RegisterDto } from './dto/register.dto.js';
@@ -23,7 +24,10 @@ interface AuthenticatedRequest extends Request {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post('register')
   register(@Body() dto: RegisterDto) {
@@ -37,10 +41,20 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  me(@Req() request: AuthenticatedRequest) {
+  async me(@Req() request: AuthenticatedRequest) {
+    const user = await this.usersService.findById(
+      request.user.id,
+    );
+
     return {
       authenticated: true,
-      user: request.user,
+      user: {
+        id: request.user.id,
+        tenantId: request.user.tenantId,
+        email: user?.email ?? request.user.email,
+        role: request.user.role,
+        name: user?.name ?? null,
+      },
     };
   }
 }
