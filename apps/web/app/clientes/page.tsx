@@ -13,6 +13,22 @@ type Client = {
   createdAt: string;
 };
 
+function formatPhone(value?: string | null) {
+  if (!value) return "Telefone não informado";
+
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+
+  if (digits.length === 11) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  }
+
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+
+  return value;
+}
+
 export default function ClientsPage() {
   const router = useRouter();
 
@@ -272,7 +288,7 @@ export default function ClientsPage() {
 
                   <div>
                     <p className="text-sm font-medium text-slate-700">
-                      {client.phone || "Telefone não informado"}
+                      {formatPhone(client.phone)}
                     </p>
 
                     <p className="mt-1 text-xs text-slate-400">
