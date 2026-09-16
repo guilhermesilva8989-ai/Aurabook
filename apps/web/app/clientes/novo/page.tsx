@@ -1,5 +1,7 @@
 "use client";
 
+import MobileNav from "@/app/components/MobileNav";
+
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -311,6 +313,7 @@ export default function NovoClientePage() {
           </div>
         </div>
       </div>
+      <MobileNav />
     </main>
   );
 }

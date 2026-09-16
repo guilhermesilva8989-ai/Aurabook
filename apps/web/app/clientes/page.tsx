@@ -1,5 +1,7 @@
 "use client";
 
+import MobileNav from "@/app/components/MobileNav";
+
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -312,6 +314,7 @@ export default function ClientsPage() {
           </section>
         </div>
       </div>
+      <MobileNav />
     </main>
   );
 }

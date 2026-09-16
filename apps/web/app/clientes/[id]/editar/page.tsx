@@ -1,5 +1,7 @@
 "use client";
 
+import MobileNav from "@/app/components/MobileNav";
+
 import { FormEvent, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
@@ -393,6 +395,7 @@ export default function EditarClientePage() {
           </div>
         </div>
       </div>
+      <MobileNav />
     </main>
   );
 }

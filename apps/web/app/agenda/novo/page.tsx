@@ -1,5 +1,7 @@
 "use client";
 
+import MobileNav from "@/app/components/MobileNav";
+
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -484,6 +486,7 @@ export default function NovoAgendamentoPage() {
           </div>
         </div>
       </div>
+      <MobileNav />
     </main>
   );
 }
