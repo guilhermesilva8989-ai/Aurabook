@@ -15,8 +15,15 @@ async function bootstrap() {
     }),
   );
 
+  const allowedOrigins = (
+    process.env.FRONTEND_URL ?? 'http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: allowedOrigins,
     credentials: true,
   });
 
@@ -24,7 +31,7 @@ async function bootstrap() {
 
   await app.listen(port);
 
-  console.log(`AuraBook API rodando em http://localhost:${port}/api`);
+  console.log(`AuraBook API rodando na porta ${port}`);
 }
 
 void bootstrap();
