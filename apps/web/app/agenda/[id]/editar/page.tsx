@@ -32,7 +32,7 @@ type Appointment = {
   notes?: string | null;
 };
 
-const API = "http://localhost:3001/api";
+const API = "/api";
 
 export default function EditarAgendamentoPage() {
   const router = useRouter();

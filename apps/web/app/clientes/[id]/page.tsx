@@ -35,7 +35,7 @@ export default function ClientePage() {
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/clients/${id}`,
+          `/api/clients/${id}`,
           {
             headers: {
               Authorization: "Bearer " + token,

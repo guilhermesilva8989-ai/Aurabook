@@ -31,7 +31,7 @@ export default function ServicesPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/api/services",
+          "/api/services",
           {
             headers: {
               Authorization: "Bearer " + token,

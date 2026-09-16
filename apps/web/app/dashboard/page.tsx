@@ -54,10 +54,10 @@ export default function DashboardPage() {
       try {
         const [meResponse, appointmentsResponse, clientsResponse, servicesResponse] =
           await Promise.all([
-            fetch("http://localhost:3001/api/auth/me", { headers }),
-            fetch("http://localhost:3001/api/appointments", { headers }),
-            fetch("http://localhost:3001/api/clients", { headers }),
-            fetch("http://localhost:3001/api/services", { headers }),
+            fetch("/api/auth/me", { headers }),
+            fetch("/api/appointments", { headers }),
+            fetch("/api/clients", { headers }),
+            fetch("/api/services", { headers }),
           ]);
 
         if (meResponse.status === 401) {

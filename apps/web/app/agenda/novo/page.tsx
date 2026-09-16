@@ -59,14 +59,14 @@ export default function NovoAgendamentoPage() {
           servicesResponse,
           professionalResponse,
         ] = await Promise.all([
-          fetch("http://localhost:3001/api/clients", {
+          fetch("/api/clients", {
             headers,
           }),
-          fetch("http://localhost:3001/api/services", {
+          fetch("/api/services", {
             headers,
           }),
           fetch(
-            "http://localhost:3001/api/professionals/me",
+            "/api/professionals/me",
             { headers }
           ),
         ]);
@@ -139,7 +139,7 @@ export default function NovoAgendamentoPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/appointments",
+        "/api/appointments",
         {
           method: "POST",
           headers: {

@@ -49,7 +49,7 @@ export default function ClientsPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/api/clients",
+          "/api/clients",
           {
             headers: {
               Authorization: "Bearer " + token,

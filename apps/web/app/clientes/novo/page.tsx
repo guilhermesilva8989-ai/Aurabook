@@ -55,7 +55,7 @@ export default function NovoClientePage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/clients",
+        "/api/clients",
         {
           method: "POST",
           headers: {

@@ -59,7 +59,7 @@ export default function AgendaPage() {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/api/appointments",
+          "/api/appointments",
           {
             headers: {
               Authorization: "Bearer " + token,
@@ -108,7 +108,7 @@ export default function AgendaPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/appointments/${id}/status`,
+        `/api/appointments/${id}/status`,
         {
           method: "PATCH",
           headers: {

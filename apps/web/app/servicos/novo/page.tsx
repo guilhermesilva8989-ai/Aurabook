@@ -40,7 +40,7 @@ export default function NovoServicoPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/services",
+        "/api/services",
         {
           method: "POST",
           headers: {

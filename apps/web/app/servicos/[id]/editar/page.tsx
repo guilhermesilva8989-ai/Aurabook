@@ -40,7 +40,7 @@ export default function EditarServicoPage() {
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/services/${id}`,
+          `/api/services/${id}`,
           {
             headers: {
               Authorization: "Bearer " + token,
@@ -102,7 +102,7 @@ export default function EditarServicoPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/services/${id}`,
+        `/api/services/${id}`,
         {
           method: "PATCH",
           headers: {

@@ -58,7 +58,7 @@ export default function EditarClientePage() {
 
       try {
         const response = await fetch(
-          `http://localhost:3001/api/clients/${id}`,
+          `/api/clients/${id}`,
           {
             headers: {
               Authorization: "Bearer " + token,
@@ -124,7 +124,7 @@ export default function EditarClientePage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/clients/${id}`,
+        `/api/clients/${id}`,
         {
           method: "PATCH",
           headers: {
