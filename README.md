@@ -414,43 +414,41 @@ Nunca publique tokens, senhas ou credenciais reais no repositório.
 
 ## Screenshots
 
-As imagens abaixo representam as principais áreas do AuraBook.
-
 ### Landing Page
 
-Imagem em breve.
+![Landing Page do AuraBook](docs/screenshots/01-landing.png)
 
 ### Cadastro
 
-Imagem em breve.
+![Cadastro no AuraBook](docs/screenshots/02-cadastro.png)
 
 ### Dashboard
 
-Imagem em breve.
+![Dashboard do AuraBook](docs/screenshots/03-dashboard.png)
 
 ### Agenda
 
-Imagem em breve.
+![Agenda do AuraBook](docs/screenshots/04-agenda.png)
 
 ### Novo agendamento
 
-Imagem em breve.
+![Novo agendamento no AuraBook](docs/screenshots/05-novo-agendamento.png)
 
 ### Clientes
 
-Imagem em breve.
+![Gestão de clientes do AuraBook](docs/screenshots/06-clientes.png)
 
 ### Serviços
 
-Imagem em breve.
+![Gestão de serviços do AuraBook](docs/screenshots/07-servicos.png)
 
 ### Configuração de horários
 
-Imagem em breve.
+![Configuração de horários do AuraBook](docs/screenshots/08-configuracoes.png)
 
 ### Responsividade mobile
 
-Imagem em breve.
+![AuraBook em dispositivo mobile](docs/screenshots/09-mobile.png)
 
 ---
 
